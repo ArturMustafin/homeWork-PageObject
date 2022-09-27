@@ -2,6 +2,7 @@ package com.demoqa.tests;
 
 import com.codeborne.selenide.Configuration;
 import com.demoqa.pages.RegistrationFormPage;
+import com.demoqa.testData.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -19,43 +20,43 @@ public class RegistrationFormWithPageObjectsTests {
     @Test
     void fillFormTest() {
         registrationFormPage.openPage()
-                .setFirstName("Ivan")
-                .setLastName("Ivanov")
-                .setEmail("alex@egorov.com")
-                .setGender("Other")
-                .setNumber("1234567890")
-                .setBirthDate("30", "July", "2008")
-                .setSubjects("Math")
-                .setHobbies("Sports")
-                .uploadPicture("img/1.png")
-                .setAddress("Calgary", "NCR", "Delhi")
+                .setFirstName(User.firstName)
+                .setLastName(User.lastName)
+                .setEmail(User.email)
+                .setGender(User.gender)
+                .setNumber(User.number)
+                .setBirthDate(User.day, User.month, User.year)
+                .setSubjects(User.subjects)
+                .setHobbies(User.hobbies)
+                .uploadPicture(User.picturePath)
+                .setAddress(User.address, User.state, User.city)
                 .clickSubmit();
 
         registrationFormPage.checkResultsTableVisible()
-                .checkResult("Student Name", "Ivan Ivanov")
-                .checkResult("Student Email", "alex@egorov.com")
-                .checkResult("Gender", "Other")
-                .checkResult("Mobile", "1234567890")
-                .checkResult("Date of Birth", "30 July,2008")
-                .checkResult("Subjects", "Math")
-                .checkResult("Hobbies", "Sports")
-                .checkResult("Picture", "1.png")
-                .checkResult("Address", "Calgary")
-                .checkResult("State and City", "NCR Delhi");
+                .checkResult("Student Name", User.firstName + " " + User.lastName)
+                .checkResult("Student Email", User.email)
+                .checkResult("Gender", User.gender)
+                .checkResult("Mobile", User.number)
+                .checkResult("Date of Birth", User.birthDay)
+                .checkResult("Subjects", User.subjects)
+                .checkResult("Hobbies", User.hobbies)
+                .checkResult("Picture", User.picture)
+                .checkResult("Address", User.address)
+                .checkResult("State and City", User.state + " " + User.city);
     }
 
     @Test
     void fillFormWithMinimumDataTest() {
         registrationFormPage.openPage()
-                .setFirstName("Alex")
-                .setLastName("Egorov")
-                .setGender("Other")
-                .setNumber("1234567890")
+                .setFirstName(User.firstName)
+                .setLastName(User.lastName)
+                .setGender(User.gender)
+                .setNumber(User.number)
                 .clickSubmit();
 
         registrationFormPage.checkResultsTableVisible()
-                .checkResult("Student Name", "Alex Egorov")
-                .checkResult("Gender", "Other")
-                .checkResult("Mobile", "1234567890");
+                .checkResult("Student Name", User.firstName + " " + User.lastName)
+                .checkResult("Gender", User.gender)
+                .checkResult("Mobile", User.number);
     }
 }
